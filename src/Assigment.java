@@ -54,7 +54,6 @@ public class Assigment {
 
     }
 
-
     public void calculateSimilarity(){
         List<Long> filmsRecords = readAll();
         int distance = DistClculation();
