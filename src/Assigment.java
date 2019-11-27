@@ -153,5 +153,34 @@ public class Assigment {
             }
         }
     }
+
+    public void printSimilarItems(long mid){
+        PreparedStatement p = null;
+        List<String> namesList = new  ArrayList<String>();
+        try{
+            p = conn.prepareStatement("SELECT MEDIAITEMS.TITLE as TITLE,SIMILARITY.MID2,SIMILARITY.SIMILARITY as SIM FROM SIMILARITY INNER JOIN MEDIAITEMS " +
+                    "ON SIMILARITY.MID2=MEDIAITEMS.MID WHERE MID1=? ORDER BY SIMILARITY DESC");
+            p.setLong(1, mid);
+            ResultSet rs=p.executeQuery();
+            while(rs.next()){
+                if (rs.getDouble("SIM") >  0)
+                    namesList.add(rs.getString("TITLE"));
+            }
+            rs.close();
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            try{
+                if(p != null){
+                    p.close();
+                }
+            }catch (SQLException e3) {
+                e3.printStackTrace();
+            }
+        }
+        for (String title : namesList)
+            System.out.println(title);
+    }
 }
 
